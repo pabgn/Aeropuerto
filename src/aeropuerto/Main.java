@@ -5,6 +5,7 @@
  */
 package aeropuerto;
 
+import aeropuerto.controller.Aeropuerto;
 import aeropuerto.controller.Controlador;
 import application.data.Data;
 import java.io.IOException;
@@ -24,11 +25,17 @@ import javafx.stage.Stage;
  * @author pablo
  */
 public class Main extends Application {
-    
+    public Data data;
     @Override
     public void start(Stage primaryStage) {
-            Controlador c = abrirVentana("Main", "Gestión aeropuerto");
-            Data data = Data.getInstance();
+            //Controlador c = abrirVentana("Main", "Gestión aeropuerto");
+            data = Data.getInstance();
+            
+            Aeropuerto a = (Aeropuerto) abrirVentana("Aeropuerto", "Aeropuerto");
+            a.aeropuerto = data.getAirportList().get(0);
+            a.ready();
+            
+            
     }
     
     public Controlador abrirVentana(String viewName, String title){

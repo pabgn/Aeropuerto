@@ -10,19 +10,28 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="aeropuerto.controller.Aeropuerto">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Nombre Aeropuerto">
-               <font>
-                  <Font size="29.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-            <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <HBox prefHeight="40.0" prefWidth="200.0">
+               <children>
+                  <Label text="Nombre Aeropuerto">
+                     <font>
+                        <Font size="29.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker>
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+            </HBox>
+            <SplitPane dividerPositions="0.39643652561247217" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
@@ -32,10 +41,13 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="tablaVuelosSalidas" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                              <TableColumn prefWidth="75.0" text="C1" />
-                                              <TableColumn prefWidth="75.0" text="C2" />
+                                                <TableColumn fx:id="s_nvuelo" prefWidth="75.0" text="N. vuelo" />
+                                              <TableColumn fx:id="s_destino" prefWidth="75.0" text="Destino" />
+                                                <TableColumn fx:id="s_hora" prefWidth="75.0" text="Hora" />
+                                                <TableColumn fx:id="s_compañia" prefWidth="103.51910400390625" text="Compañía" />
+                                                <TableColumn fx:id="s_estado" prefWidth="96.59848022460938" text="Estado" />
                                             </columns>
                                           </TableView>
                                        </children>
@@ -46,10 +58,13 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="tablaVuelosLlegadas" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn prefWidth="75.0" text="C1" />
-                                                <TableColumn prefWidth="75.0" text="C2" />
+                                                <TableColumn fx:id="l_nvuelo" prefWidth="75.0" text="N. vuelo" />
+                                                <TableColumn fx:id="l_destino" prefWidth="75.0" text="Destino" />
+                                                <TableColumn fx:id="l_hora" prefWidth="75.0" text="Hora" />
+                                                <TableColumn fx:id="l_compañia" prefWidth="103.51910400390625" text="Compañía" />
+                                                <TableColumn fx:id="l_estado" prefWidth="96.59848022460938" text="Estado" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -71,7 +86,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <LineChart>
+                              <LineChart maxHeight="1.7976931348623157E308" title="Vuelos por hora">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
@@ -79,14 +94,18 @@
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
                               </LineChart>
-                              <BarChart GridPane.rowIndex="1">
-                                <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis side="LEFT" />
-                                </yAxis>
-                              </BarChart>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                 <children>
+                                    <BarChart fx:id="vuelosPorCompañia" categoryGap="4.0" legendSide="RIGHT" legendVisible="false" maxHeight="1.7976931348623157E308" minHeight="200.0" title="Vuelos por compañía" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="0.0">
+                                      <xAxis>
+                                        <CategoryAxis fx:id="vuelosPorCompañiaCategorias" side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis side="LEFT" />
+                                      </yAxis>
+                                    </BarChart>
+                                 </children>
+                              </AnchorPane>
                            </children>
                         </GridPane>
                      </children>
