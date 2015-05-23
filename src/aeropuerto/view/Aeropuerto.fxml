@@ -24,7 +24,7 @@
                         <Insets bottom="10.0" left="10.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <DatePicker>
+                  <DatePicker fx:id="date" onAction="#onDateChanged">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
@@ -86,9 +86,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <LineChart maxHeight="1.7976931348623157E308" title="Vuelos por hora">
+                              <LineChart fx:id="vuelosPorHora" maxHeight="1.7976931348623157E308" title="Vuelos por hora">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <CategoryAxis fx:id="vuelosPorHoraCategorias" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />
@@ -96,7 +96,7 @@
                               </LineChart>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                  <children>
-                                    <BarChart fx:id="vuelosPorCompañia" categoryGap="4.0" legendSide="RIGHT" legendVisible="false" maxHeight="1.7976931348623157E308" minHeight="200.0" title="Vuelos por compañía" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="0.0">
+                                    <BarChart fx:id="vuelosPorCompañia" categoryGap="2.0" legendSide="RIGHT" legendVisible="false" maxHeight="1.7976931348623157E308" minHeight="200.0" prefHeight="224.0" prefWidth="538.0" title="Top 3 compañías" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <xAxis>
                                         <CategoryAxis fx:id="vuelosPorCompañiaCategorias" side="BOTTOM" />
                                       </xAxis>
