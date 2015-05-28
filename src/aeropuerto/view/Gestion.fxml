@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,8 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="aeropuerto.controller.Main">
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aeropuerto.controller.Gestion">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -23,11 +24,13 @@
                <children>
                   <TableView fx:id="tablaAeropuertos" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="198.0" text="Aeropuerto" />
-                      <TableColumn prefWidth="109.0" text="Vuelos totales" />
-                        <TableColumn prefWidth="103.0" text="Nacional" />
-                        <TableColumn prefWidth="105.0" text="Internacional" />
-                        <TableColumn prefWidth="100.0" text="Vuelos/día" />
+                      <TableColumn fx:id="aeropuertosTabla" prefWidth="198.0" text="Aeropuerto" />
+                        <TableColumn fx:id="codigo" prefWidth="87.67318725585938" text="Código" />
+                      <TableColumn fx:id="vuelosTotales" prefWidth="130.32684326171875" text="Vuelos totales" />
+                        <TableColumn fx:id="nacional" prefWidth="103.81625366210938" text="Nacional" />
+                        <TableColumn fx:id="internacional" prefWidth="118.0406494140625" text="Internacional" />
+                        <TableColumn fx:id="vuelosDia" prefWidth="103.8162841796875" text="Vuelos/día" />
+                        <TableColumn fx:id="retrasoMedio" prefWidth="151.0" text="Retraso medio" />
                     </columns>
                   </TableView>
                </children>
@@ -45,19 +48,32 @@
                      <children>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <LineChart title="Número de vuelos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <LineChart fx:id="vuelosPorDia" title="Número de vuelos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
+                                  <CategoryAxis fx:id="vuelosPorDiaCategoria" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis side="LEFT" />
+                                  <NumberAxis fx:id="vuelosPorDiaNumero" side="LEFT" />
                                 </yAxis>
                               </LineChart>
                            </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <PieChart title="Top aeropuertos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <PieChart fx:id="topAeropuertos" labelLineLength="30.0" labelsVisible="false" legendVisible="false" title="Top aeropuertos">
+                                       <HBox.margin>
+                                          <Insets right="20.0" />
+                                       </HBox.margin>
+                                    </PieChart>
+                                    <Slider fx:id="slider" blockIncrement="1.0" majorTickUnit="4.0" max="40.0" min="6.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                                       <HBox.margin>
+                                          <Insets bottom="20.0" right="15.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Slider>
+                                 </children>
+                              </HBox>
                            </children>
                         </AnchorPane>
                      </children>
