@@ -9,14 +9,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="aeropuerto.controller.Aeropuerto">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aeropuerto.controller.Aeropuerto">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="40.0" prefWidth="200.0">
                <children>
-                  <Label text="Nombre Aeropuerto">
+                  <Label fx:id="nombre" text="Nombre Aeropuerto">
                      <font>
                         <Font size="29.0" />
                      </font>
@@ -35,7 +34,7 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TabPane fx:id="panel" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
                             <Tab text="Salidas">
                               <content>
@@ -54,14 +53,14 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
-                            <Tab text="Llegadas">
+                            <Tab onSelectionChanged="#sectionChanged" text="Llegadas">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <TableView fx:id="tablaVuelosLlegadas" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
                                                 <TableColumn fx:id="l_nvuelo" prefWidth="75.0" text="N. vuelo" />
-                                                <TableColumn fx:id="l_destino" prefWidth="75.0" text="Destino" />
+                                                <TableColumn fx:id="l_llegada" prefWidth="75.0" text="Origen" />
                                                 <TableColumn fx:id="l_hora" prefWidth="75.0" text="Hora" />
                                                 <TableColumn fx:id="l_compañia" prefWidth="103.51910400390625" text="Compañía" />
                                                 <TableColumn fx:id="l_estado" prefWidth="96.59848022460938" text="Estado" />

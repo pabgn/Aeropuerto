@@ -20,8 +20,14 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.util.Callback;
 
 public class Aeropuerto extends Controlador {
     
@@ -29,10 +35,13 @@ public class Aeropuerto extends Controlador {
     private Flight vuelos_llegadas;
     private Flight vuelos_salidas;    
     @FXML
+    private Label nombre;
+    @FXML
     private TableView tablaVuelosSalidas;
     @FXML
+    private TabPane panel;
+    @FXML
     private TableView tablaVuelosLlegadas;
-    
     @FXML
     private TableColumn<Flight, String> s_nvuelo;
     @FXML
@@ -44,10 +53,10 @@ public class Aeropuerto extends Controlador {
     @FXML
     private TableColumn<Flight, String> s_estado; 
 
-     @FXML
+    @FXML
     private TableColumn<Flight, String> l_nvuelo;
     @FXML
-    private TableColumn<Flight, String> l_destino;
+    private TableColumn<Flight, String> l_llegada;
     @FXML
     private TableColumn<Flight, String> l_hora;
     @FXML
@@ -67,21 +76,16 @@ public class Aeropuerto extends Controlador {
     private DatePicker date;
     
     List<String> compañias_s;
-    public void ready(){
-     //Lista de horas para la gráfica
+    
+    List<Flight> flights;
+    List<Flight> flights_l;
+    public void imprimirGraficos(List<Flight>flights){
+       //Horas
         List<String> horas = new ArrayList<>();
         for(int h=0;h<=23;h++){
             horas.add(h+"h");
         }
         ObservableList<String> horas_o = FXCollections.observableArrayList(horas);
-
-     //Cargamos los vuelos
-        
-     //Salidas
-     try{
-     List<Flight> flights = new ArrayList<>(this.app.data.getAirportFlights(aeropuerto, date.getValue()).getDepartures().getFlights().values());
-     ObservableList<Flight> flights_o = (ObservableList<Flight>)FXCollections.observableArrayList(flights);  
-        tablaVuelosSalidas.setItems(flights_o);
         //Obtenemos la lista de compañías de salidas y el numero de vuelos asociados
      int max=3;
      compañias_s = new ArrayList<>();
@@ -113,18 +117,39 @@ public class Aeropuerto extends Controlador {
      vuelosPorHoraCategorias.setCategories(horas_o);
      XYChart.Series<String, Integer> series2 = createDataSeries(flightsCounter2, horas);
      XYChart.Series<String, Integer> series3 = createDataSeries(flightsCounter3, horas);
+     if(vuelosPorHora.getData().size()>0){
+        vuelosPorHora.getData().remove(0);
+        vuelosPorHora.getData().remove(0);
 
+     }
+     series2.setName("Nacional");
+     series3.setName("Internacional");
+     
      vuelosPorHora.getData().add(series2);
      vuelosPorHora.getData().add(series3);
+    }
+    public void ready(){
+     //Lista de horas para la gráfica
+        nombre.setText(aeropuerto.getName());
+      
+
+     //Cargamos los vuelos
+        
+     //Salidas
+     try{
+        flights = new ArrayList<>(this.app.data.getAirportFlights(aeropuerto, date.getValue()).getDepartures().getFlights().values());
+        ObservableList<Flight> flights_o = (ObservableList<Flight>)FXCollections.observableArrayList(flights);  
+        tablaVuelosSalidas.setItems(flights_o);
      
      }catch(Exception e){
-        tablaVuelosSalidas.setItems(null);
+        
+         tablaVuelosSalidas.setItems(null);
         
         
      }
      //Llegadas
      try{
-     List<Flight> flights_l = new ArrayList<>(this.app.data.getAirportFlights(aeropuerto, date.getValue()).getArrivals().getFlights().values());
+     flights_l = new ArrayList<>(this.app.data.getAirportFlights(aeropuerto, date.getValue()).getArrivals().getFlights().values());
      ObservableList<Flight> flights_o_l = (ObservableList<Flight>)FXCollections.observableArrayList(flights_l);  
      tablaVuelosLlegadas.setItems(flights_o_l); 
      }catch(Exception e){
@@ -132,9 +157,16 @@ public class Aeropuerto extends Controlador {
      }
      
      
-     
+     pintarGraficosTab();
     }
     
+    private void pintarGraficosTab(){
+        if(panel.getSelectionModel().isSelected(0)){
+            imprimirGraficos(flights);
+        }else{
+            imprimirGraficos(flights_l);
+        }
+    }
     
     private XYChart.Series<String, Integer> createDataSeries(int[] counter, List<String>y) {
         XYChart.Series<String,Integer> series = new XYChart.Series<String,Integer>();
@@ -151,6 +183,10 @@ public class Aeropuerto extends Controlador {
     private void onDateChanged(Event e){
         ready();
     }
+     @FXML
+    private void sectionChanged(Event e){
+       pintarGraficosTab();
+    }
     @FXML
     private void initialize() {
          //date.setValue(LocalDate.now());
@@ -164,9 +200,41 @@ public class Aeropuerto extends Controlador {
          s_compañia.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCompany()));
 
          l_nvuelo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFlightNumber()));
-         l_destino.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDestiny()));
+         l_llegada.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrigin()));
          l_hora.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTime().toString()));
          l_estado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFlightStatus().getStatus().getMessage()));
          l_compañia.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCompany()));
+    
+        tablaVuelosSalidas.setRowFactory(new Callback<TableView<Flight>, TableRow<Flight>>() {
+            @Override public TableRow<Flight> call(TableView<Flight> param) {
+                return new TableRow<Flight>() {
+                    @Override protected void updateItem(Flight item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(!empty){
+                        if (item.getFlightDomain()==FlightDomain.INTERNATIONAL) {
+                            this.setStyle("-fx-background-color:#fba71b");
+                            }
+                        }
+                    }
+                };
+            }
+        });
+        
+    
+     tablaVuelosLlegadas.setRowFactory(new Callback<TableView<Flight>, TableRow<Flight>>() {
+            @Override public TableRow<Flight> call(TableView<Flight> param) {
+                return new TableRow<Flight>() {
+                    @Override protected void updateItem(Flight item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(!empty){
+                        if (item.getFlightDomain()==FlightDomain.INTERNATIONAL) {
+                            this.setStyle("-fx-background-color:#fba71b");
+                            }
+                        }
+                    }
+                };
+            }
+        });
     }
+
 }
