@@ -192,7 +192,7 @@ public class Gestion extends Controlador {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     AirportFlights rowData = row.getItem();
                     Aeropuerto b = (Aeropuerto) app.abrirVentana("Aeropuerto", "Aeropuerto");
-                    b.aeropuerto = rowData.getAirport();
+                    b.search = rowData.getAirport().getCode();
                     b.ready();
                 }
             });

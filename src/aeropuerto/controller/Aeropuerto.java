@@ -75,6 +75,8 @@ public class Aeropuerto extends Controlador {
     @FXML
     private DatePicker date;
     
+    public String search;
+    
     List<String> compañias_s;
     
     List<Flight> flights;
@@ -130,11 +132,16 @@ public class Aeropuerto extends Controlador {
     }
     public void ready(){
      //Lista de horas para la gráfica
+        List<Airport> l = this.app.data.getAirportList();
+        for(Airport li:l){
+            if(li.getCode().equals(search)){
+                aeropuerto=li;
+            }
+        }
         nombre.setText(aeropuerto.getName());
-      
+       
 
      //Cargamos los vuelos
-        
      //Salidas
      try{
         flights = new ArrayList<>(this.app.data.getAirportFlights(aeropuerto, date.getValue()).getDepartures().getFlights().values());
@@ -161,6 +168,7 @@ public class Aeropuerto extends Controlador {
     }
     
     private void pintarGraficosTab(){
+        
         if(panel.getSelectionModel().isSelected(0)){
             imprimirGraficos(flights);
         }else{
